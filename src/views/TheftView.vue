@@ -72,7 +72,7 @@ export default {
         </div>
       </div>
     </div>
-    <div class="modal is-active" v-if="Object.keys(this.card).length !== 0">
+    <div class="modal is-active card-modal" v-if="Object.keys(this.card).length !== 0">
       <div class="modal-background"></div>
       <div class="modal-content drop_card_content" v-on:click.prevent="reset()">
         <div class="card drop_card">
