@@ -96,6 +96,7 @@ $navbar-height: 8rem;
 }
 
 .view-cover {
+  z-index: 99;
 	position: absolute;
 	height: 250px;
 	width: 100%;
@@ -156,4 +157,13 @@ $navbar-height: 8rem;
 
 .thief_display {
   text-align: center;
+}
+
+.forge-button {
+  background-color: #19d878;
+  border: none;
+}
+
+.card-modal {
+  z-index: 101;
 }
