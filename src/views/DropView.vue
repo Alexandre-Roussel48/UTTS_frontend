@@ -12,9 +12,9 @@ export default {
     async drop() {
       fetch(`${this.$url_prefix}/api/user/drop`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         }
       })
       .then(resp => resp.json())

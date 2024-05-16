@@ -12,9 +12,9 @@ export default {
     async theft() {
       fetch(`${this.$url_prefix}/api/user/theft`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         }
       })
       .then(resp => resp.json())

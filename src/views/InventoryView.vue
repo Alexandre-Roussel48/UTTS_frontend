@@ -14,9 +14,9 @@ export default {
     async get_cards() {
       let response = await fetch(`${this.$url_prefix}/api/user/get_inventory`, {
         method: 'POST',
+        credentials: "include",
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         }
       });
       let cards = await response.json();
@@ -30,7 +30,7 @@ export default {
           cardsMap.set(key, { ...card, count: 1 });
         }
       });
-      this.inventory = Array.from(cardsMap.values());
+      this.inventory = Array.from(cardsMap.values()).sort((a, b) => a.id - b.id);
     }
   },
   async mounted () {

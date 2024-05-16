@@ -14,9 +14,9 @@ export default {
     async get_vault() {
       let response = await fetch(`${this.$url_prefix}/api/user/get_vault`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         }
       });
       this.vault = await response.json();
