@@ -1,9 +1,51 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script>
 import Navbar from '@/components/app/navbar.vue'
 import Login from '@/components/app/login.vue'
 import Register from '@/components/app/register.vue'
 import Thefts from '@/components/app/thefts.vue'
+
+export default {
+  name: 'app',
+  components: { Navbar, Login, Register, Thefts},
+  methods: {
+    async checkConnection() {
+      fetch(`${this.$url_prefix}/api/check_connection`, {
+        method: 'POST',
+        credentials: "include",
+        headers: {
+          'Content-Type':'application/json',
+        }
+      })
+      .then(resp => resp.json())
+      .then(async data => {
+        if ('user_data' in data) {
+          this.$store.commit('set_user_data', {
+            username: data['user_data']['username'],
+            connection_count: data['user_data']['connection_count']
+          });
+          this.$store.commit('set_next_card', {next_card: data['user_data']['next_card']});
+          this.$store.commit('set_next_theft', {next_theft: data['user_data']['next_theft']});
+          this.$store.commit('set_thefts', {thefts: data['user_data']['thefts']});
+          this.$store.commit('set_websocket');
+        } else {
+          this.$store.commit('set_user_data', {
+            username: "",
+            connection_count: -1
+          });
+          this.$store.commit('set_next_card', {next_card: ""});
+          this.$store.commit('set_next_theft', {next_theft: ""});
+          this.$store.commit('set_thefts', {thefts: ""});
+          if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
+        }
+      });
+    }
+  },
+  async mounted () {
+    await this.checkConnection();
+    setInterval(this.checkConnection, 600000);
+  }
+}
+
 </script>
 
 <template>
