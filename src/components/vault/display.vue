@@ -7,9 +7,9 @@ export default {
     async inventory() {
       await fetch(`${this.$url_prefix}/api/user/inventory_card`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         },
         body: JSON.stringify({
           'card':this.card_data,

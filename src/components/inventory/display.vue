@@ -7,9 +7,9 @@ export default {
     async vault() {
       await fetch(`${this.$url_prefix}/api/user/vault_card`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         },
         body: JSON.stringify({
           'card':this.card_data
@@ -23,8 +23,7 @@ export default {
       await fetch(`${this.$url_prefix}/api/user/forge_card`, {
         method: 'POST',
         headers: {
-          'Content-Type':'application/json',
-          'authorization': 'Bearer ' + this.$store.state.token
+          'Content-Type':'application/json'
         },
         body: JSON.stringify({
           'card':this.card_data
