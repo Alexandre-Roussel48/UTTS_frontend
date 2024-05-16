@@ -10,11 +10,20 @@ import { faUser, faLock, faCaretLeft, faCaretRight, faToolbox, faHammer, faCube 
 
 library.add(faUser, faLock, faCaretLeft, faCaretRight, faToolbox, faHammer, faCube)
 
+
+const app = createApp(App)
+
+app.component('font-awesome-icon', FontAwesomeIcon)
+
+app.use(router)
+
+app.config.globalProperties.$url_prefix = "http://localhost:5000"
+app.config.globalProperties.$ws_prefix = "ws://localhost:3000"
+
 const store = createStore({
   state () {
     return {
       username: "",
-      token: "",
       connection_count: -1,
       next_card: "",
       next_theft: "",
@@ -25,7 +34,6 @@ const store = createStore({
   mutations: {
     set_user_data (state, payload) {
       state.username = payload.username;
-      state.token = payload.token;
       state.connection_count = payload.connection_count;
     },
     set_next_card (state, payload) {
@@ -40,13 +48,30 @@ const store = createStore({
     set_thefts (state, payload) {
       state.thefts = payload.thefts;
     },
-    set_websocket(state, ws) {
-      state.ws = ws;
+    set_websocket(state) {
+      state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}`);
+
+      state.ws.onmessage = (event) => {
+        const jsonData = JSON.parse(event.data);
+        const thefts = [];
+        thefts.push(jsonData);
+        this.$store.commit('set_thefts', {thefts: thefts});
+      };
+
+      state.ws.onclose = async () => {
+        await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type':'application/json',
+          }
+        });
+      };
     }
   },
   getters: {
     is_connected (state) {
-      return state.username != "" && state.token != "";
+      return state.username != "";
     },
     is_first_time (state) {
       return state.connection_count == 0;
@@ -73,15 +98,6 @@ const store = createStore({
   }
 })
 
-const app = createApp(App)
-
-app.component('font-awesome-icon', FontAwesomeIcon)
-
-app.use(router)
-
 app.use(store)
-
-app.config.globalProperties.$url_prefix = "http://127.0.0.1:5000"
-app.config.globalProperties.$ws_prefix = "ws://localhost:3000"
 
 app.mount('#app')
