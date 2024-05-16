@@ -7,53 +7,35 @@ export default {
       username: "",
       password: "",
       password_check: "",
+      remember: false,
       status: ""
     }
   },
   methods: {
-    register() {
-      fetch(`${this.$url_prefix}/api/register`, {
+    async register() {
+      await fetch(`${this.$url_prefix}/api/register`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           'Content-Type':'application/json'
         },
         body: JSON.stringify({
           'username':this.username,
-          'password':this.password
+          'password':this.password,
+          'remember':this.remember
         })
       })
       .then(resp => resp.json())
       .then(data => {
-        if ('token' in data) {
+        if ('user_data' in data) {
           this.$store.commit('set_user_data', {
             username: this.username,
-            token: data['token'],
-            connection_count: data['connection_count']
+            token: data['user_data']['token'],
+            connection_count: data['user_data']['connection_count']
           });
-          this.$store.commit('set_next_card', {next_card: data['next_card']});
-          this.$store.commit('set_next_theft', {next_theft: data['next_theft']});
-          const ws = new WebSocket(`${this.$ws_prefix}?authorization=${data['token']}`);
-
-          ws.onopen = () => {
-            this.$store.commit('set_websocket', ws);
-          };
-
-          ws.onmessage = (event) => {
-            const jsonData = JSON.parse(event.data);
-            const thefts = [];
-            thefts.push(jsonData);
-            this.$store.commit('set_thefts', {thefts: thefts});
-          };
-
-          ws.onclose = async () => {
-            await fetch(`${this.$url_prefix}/api/user/set_last_connection`, {
-              method: 'POST',
-              headers: {
-                'Content-Type':'application/json',
-                'authorization': 'Bearer ' + this.$store.state.token
-              }
-            });
-          };
+          this.$store.commit('set_next_card', {next_card: data['user_data']['next_card']});
+          this.$store.commit('set_next_theft', {next_theft: data['user_data']['next_theft']});
+          this.$store.commit('set_websocket');
         } else {
           this.username = "";
           this.password = "";
@@ -109,6 +91,12 @@ export default {
           <font-awesome-icon :icon="['fas', 'lock']" />
         </span>
       </p>
+    </div>
+    <div class="field">
+      <label class="checkbox">
+        <input type="checkbox" v-model="remember"/>
+        Remember me
+      </label>
     </div>
     <div class="field">
       <small v-if="this.status != ''">{{this.status}}</small>

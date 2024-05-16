@@ -3,11 +3,15 @@
 export default {
   name: 'app_navbar',
   methods: {
-    logout() {
-      this.$store.getters.get_ws.close();
+    async logout() {
+      await this.$store.getters.get_ws.close();
+      await fetch(`${this.$url_prefix}/api/logout`, {
+        method: 'POST',
+        credentials: "include",
+      });
       this.$store.commit('set_user_data', {
         username: "",
-        token: ""
+        connection_count: -1
       });
       this.$store.commit('set_next_card', {
         next_card: ""
