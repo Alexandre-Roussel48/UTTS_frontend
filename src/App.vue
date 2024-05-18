@@ -8,13 +8,16 @@ export default {
   name: 'app',
   components: { Navbar, Login, Register, Thefts},
   methods: {
-    async checkConnection() {
+    async checkConnection(increment) {
       fetch(`${this.$url_prefix}/api/check_connection`, {
         method: 'POST',
         credentials: "include",
         headers: {
           'Content-Type':'application/json',
-        }
+        },
+        body: JSON.stringify({
+          'increment':increment
+        })
       })
       .then(resp => resp.json())
       .then(async data => {
@@ -41,8 +44,10 @@ export default {
     }
   },
   async mounted () {
-    await this.checkConnection();
-    setInterval(this.checkConnection, 600000);
+    await this.checkConnection(true);
+    setInterval(() => {
+        checkConnection(false);
+    }, 600000);
   }
 }
 

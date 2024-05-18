@@ -55,7 +55,7 @@ const store = createStore({
         const jsonData = JSON.parse(event.data);
         const thefts = [];
         thefts.push(jsonData);
-        this.$store.commit('set_thefts', {thefts: thefts});
+        state.thefts = thefts;
       };
 
       state.ws.onclose = async () => {
