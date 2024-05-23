@@ -52,7 +52,7 @@ export default {
                 </div>
               </div>
               <div class="column is-12">
-                <p>Number of cards : {{user.cards}}/46</p>
+                <p>Number of cards : {{user.cards}}/45</p>
                 <p>Common : {{user.common}}/14</p>
                 <p>Uncommon : {{user.uncommon}}/14</p>
                 <p>Rare : {{user.rare}}/8</p>

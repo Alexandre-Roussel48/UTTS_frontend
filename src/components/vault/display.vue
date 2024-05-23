@@ -19,6 +19,9 @@ export default {
       .then(response => {
         this.$emit('rerender');
       });
+    },
+    getImageSource(cardName) {
+      return `cards/${cardName}.png`;
     }
   }
 }
@@ -34,7 +37,7 @@ export default {
         </span>
       </button>
       <figure class="image">
-        <img :src="'src/assets/cards/' + card_data.name + '.png'" alt="Card image"/>
+        <img :src="getImageSource(card_data.name)" alt="Card image"/>
       </figure>
     </div>
   </div>

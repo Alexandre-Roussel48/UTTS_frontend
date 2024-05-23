@@ -50,7 +50,7 @@ export default {
             <tbody>
               <tr v-for="user in leaderboard">
                 <td>{{user.username}}</td>
-                <td>{{user.cards}}/46</td>
+                <td>{{user.cards}}/45</td>
               </tr>
             </tbody>
           </table>

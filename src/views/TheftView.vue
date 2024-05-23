@@ -28,6 +28,9 @@ export default {
     },
     reset () {
       this.card = {};
+    },
+    getImageSource(cardName) {
+      return `cards/${cardName}.png`;
     }
   },
   watch: {
@@ -78,7 +81,7 @@ export default {
         <div class="card drop_card">
           <div class="card-image">
             <figure class="image">
-              <img :src="'src/assets/cards/' + card.name + '.png'" alt="Card image"/>
+              <img :src="getImageSource(card.name)" alt="Card image"/>
             </figure>
           </div>
         </div>

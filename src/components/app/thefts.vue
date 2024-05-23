@@ -21,6 +21,9 @@ export default {
           this.$store.commit('set_thefts', {thefts: []});
         }
       }
+    },
+    getImageSource(cardName) {
+      return `cards/${cardName}.png`;
     }
   },
   mounted () {
@@ -49,7 +52,7 @@ export default {
                 <div class="card">
                   <div class="card-image">
                     <figure class="image">
-                      <img :src="'src/assets/cards/' + this.thefts[this.num]['card']['name'] + '.png'" alt="Card image"/>
+                      <img :src="getImageSource(this.thefts[this.num]['card']['name'])" alt="Card image"/>
                     </figure>
                   </div>
                 </div>
