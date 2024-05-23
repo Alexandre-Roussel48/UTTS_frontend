@@ -10,6 +10,8 @@ RUN npm install
 
 COPY . .
 
+RUN echo $URL_BASE
+
 RUN npm run build
 
 EXPOSE 5002
