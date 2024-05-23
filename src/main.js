@@ -17,8 +17,8 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(router)
 
-app.config.globalProperties.$url_prefix = `http://${import.meta.env.VITE_URL_BASE}:${import.meta.env.VITE_PORT}`
-app.config.globalProperties.$ws_prefix = `ws://${import.meta.env.VITE_URL_BASE}:${import.meta.env.VITE_WS_PORT}`
+app.config.globalProperties.$url_prefix = `http://${process.env.URL_BASE}:${process.env.PORT}`
+app.config.globalProperties.$ws_prefix = `ws://${process.env.URL_BASE}:${process.env.WS_PORT}`
 
 const store = createStore({
   state () {
