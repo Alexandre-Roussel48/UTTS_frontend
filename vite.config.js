@@ -19,7 +19,7 @@ export default defineConfig(({ command, mode }) => {
     define: {
       'process.env.PORT': env.PORT,
       'process.env.WS_PORT': env.WS_PORT,
-      'process.env.URL_BASE': env.URL_BASE
+      'process.env.URL_BASE': JSON.stringify(env.URL_BASE)
     },
   };
 });
