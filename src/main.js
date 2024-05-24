@@ -51,25 +51,30 @@ const store = createStore({
       state.thefts = payload.thefts;
     },
     set_websocket(state) {
-      state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}`);
-
-      state.ws.onmessage = (event) => {
-        const jsonData = JSON.parse(event.data);
-        const thefts = [];
-        thefts.push(jsonData);
-        state.thefts = thefts;
-      };
-
-      state.ws.onclose = async () => {
-        console.log("close");
-        await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type':'application/json',
+      const setupWebSocket = () => {
+        state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}`);
+        state.ws.onmessage = (event) => {
+          const jsonData = JSON.parse(event.data);
+          const thefts = [];
+          thefts.push(jsonData);
+          state.thefts = thefts;
+        };
+        state.ws.onclose = async (event) => {
+          if (event.wasClean) {
+            await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                'Content-Type':'application/json',
+              }
+            });
+          } else {
+            setupWebSocket();
           }
-        });
+        };
       };
+
+      setupWebSocket();
     }
   },
   getters: {
