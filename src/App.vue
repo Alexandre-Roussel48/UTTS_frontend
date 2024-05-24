@@ -9,7 +9,8 @@ export default {
   components: { Navbar, Login, Register, Thefts},
   methods: {
     async checkConnection(increment) {
-      fetch(`${this.$url_prefix}/api/check_connection`, {
+      console.log("Check of connection");
+      await fetch(`${this.$url_prefix}/api/check_connection`, {
         method: 'POST',
         credentials: "include",
         headers: {
