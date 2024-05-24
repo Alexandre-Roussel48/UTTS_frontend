@@ -11,7 +11,8 @@ export default {
       });
       this.$store.commit('set_user_data', {
         username: "",
-        connection_count: -1
+        connection_count: -1,
+        is_admin: false
       });
       this.$store.commit('set_next_card', {
         next_card: ""
@@ -49,6 +50,9 @@ export default {
         </RouterLink>
       </div>
       <div class="navbar-end">
+        <RouterLink to="/admin" class="navbar-item" v-if="this.$store.getters.is_admin">
+          <img class="header_category" src="@/assets/admin.svg">
+        </RouterLink>
         <RouterLink to="/theft" class="navbar-item">
           <img class="header_category" src="@/assets/theft.svg">
         </RouterLink>

@@ -6,9 +6,9 @@ import router from './router'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUser, faLock, faCaretLeft, faCaretRight, faToolbox, faHammer, faCube } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faLock, faCaretLeft, faCaretRight, faToolbox, faHammer, faCube, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUser, faLock, faCaretLeft, faCaretRight, faToolbox, faHammer, faCube)
+library.add(faUser, faLock, faCaretLeft, faCaretRight, faToolbox, faHammer, faCube, faTrash)
 
 
 const app = createApp(App)
@@ -25,6 +25,7 @@ const store = createStore({
     return {
       username: "",
       connection_count: -1,
+      is_admin: false,
       next_card: "",
       next_theft: "",
       thefts: [],
@@ -35,6 +36,7 @@ const store = createStore({
     set_user_data (state, payload) {
       state.username = payload.username;
       state.connection_count = payload.connection_count;
+      state.is_admin = payload.is_admin;
     },
     set_next_card (state, payload) {
       state.next_card = payload.next_card;
@@ -72,6 +74,9 @@ const store = createStore({
   getters: {
     is_connected (state) {
       return state.username != "";
+    },
+    is_admin (state) {
+      return state.is_admin;
     },
     is_first_time (state) {
       return state.connection_count == 0;

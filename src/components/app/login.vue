@@ -29,7 +29,8 @@ export default {
         if ('user_data' in data) {
           this.$store.commit('set_user_data', {
             username: this.username,
-            connection_count: data['user_data']['connection_count']
+            connection_count: data['user_data']['connection_count'],
+            is_admin: data['user_data']['is_admin']
           });
           this.$store.commit('set_next_card', {next_card: data['user_data']['next_card']});
           this.$store.commit('set_next_theft', {next_theft: data['user_data']['next_theft']});
