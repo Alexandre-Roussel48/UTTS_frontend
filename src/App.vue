@@ -48,7 +48,7 @@ export default {
   async mounted () {
     await this.checkConnection(true);
     setInterval(() => {
-        checkConnection(false);
+        this.checkConnection(false);
     }, 600000);
   }
 }
