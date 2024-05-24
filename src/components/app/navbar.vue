@@ -4,7 +4,7 @@ export default {
   name: 'app_navbar',
   methods: {
     async logout() {
-      await this.$store.getters.get_ws.close();
+      if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
       await fetch(`${this.$url_prefix}/api/logout`, {
         method: 'POST',
         credentials: "include",
