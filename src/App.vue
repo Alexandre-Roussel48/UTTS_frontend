@@ -49,7 +49,7 @@ export default {
     await this.checkConnection(true);
     setInterval(() => {
         this.checkConnection(false);
-    }, 600000);
+    }, 200000);
   }
 }
 
