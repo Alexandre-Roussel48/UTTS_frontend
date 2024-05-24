@@ -4,7 +4,6 @@ export default {
   name: 'app_navbar',
   methods: {
     async logout() {
-      if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
       await fetch(`${this.$url_prefix}/api/logout`, {
         method: 'POST',
         credentials: "include",
@@ -23,6 +22,7 @@ export default {
       this.$store.commit('set_thefts', {
         thefts: []
       });
+      if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
       this.$router.push('/');
     }
   }

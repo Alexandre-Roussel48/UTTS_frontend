@@ -61,6 +61,7 @@ const store = createStore({
       };
 
       state.ws.onclose = async () => {
+        console.log("close");
         await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
           method: 'POST',
           credentials: 'include',

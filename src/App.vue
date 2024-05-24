@@ -9,7 +9,6 @@ export default {
   components: { Navbar, Login, Register, Thefts},
   methods: {
     async checkConnection(increment) {
-      console.log("Check of connection");
       await fetch(`${this.$url_prefix}/api/check_connection`, {
         method: 'POST',
         credentials: "include",
@@ -42,6 +41,7 @@ export default {
           this.$store.commit('set_next_theft', {next_theft: ""});
           this.$store.commit('set_thefts', {thefts: ""});
           if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
+          console.log("OULALA");
         }
       });
     }
