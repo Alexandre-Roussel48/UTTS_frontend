@@ -11,7 +11,7 @@ export default {
   methods: {
     async drop() {
       fetch(`${this.$url_prefix}/api/user/drop`, {
-        method: 'POST',
+        method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'

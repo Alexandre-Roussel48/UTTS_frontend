@@ -13,8 +13,8 @@ export default {
   },
   methods: {
     async get_cards() {
-      let response = await fetch(`${this.$url_prefix}/api/user/get_forge`, {
-        method: 'POST',
+      let response = await fetch(`${this.$url_prefix}/api/user/forge`, {
+        method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'

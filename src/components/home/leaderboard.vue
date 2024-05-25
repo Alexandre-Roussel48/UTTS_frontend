@@ -9,8 +9,8 @@ export default {
   },
   methods: {
     async get_leaderboard() {
-      let response = await fetch(`${this.$url_prefix}/api/get_leaderboard`, {
-        method: 'POST',
+      let response = await fetch(`${this.$url_prefix}/api/leaderboard`, {
+        method: 'GET',
         credentials: "include",
         headers: {
           'Content-Type':'application/json'

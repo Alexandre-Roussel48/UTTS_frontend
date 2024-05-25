@@ -12,8 +12,8 @@ export default {
   },
   methods: {
     async get_vault() {
-      let response = await fetch(`${this.$url_prefix}/api/user/get_vault`, {
-        method: 'POST',
+      let response = await fetch(`${this.$url_prefix}/api/user/vault`, {
+        method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'

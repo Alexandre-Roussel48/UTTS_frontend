@@ -12,8 +12,8 @@ export default {
   },
   methods: {
     async get_cards() {
-      let response = await fetch(`${this.$url_prefix}/api/user/get_inventory`, {
-        method: 'POST',
+      let response = await fetch(`${this.$url_prefix}/api/user/inventory`, {
+        method: 'GET',
         credentials: "include",
         headers: {
           'Content-Type':'application/json'

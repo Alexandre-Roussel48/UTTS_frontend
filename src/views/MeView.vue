@@ -9,8 +9,8 @@ export default {
   },
   methods: {
     async get_user_data() {
-      let response = await fetch(`${this.$url_prefix}/api/user/get_user_data`, {
-        method: 'POST',
+      let response = await fetch(`${this.$url_prefix}/api/user/data`, {
+        method: 'GET',
         credentials: "include",
         headers: {
           'Content-Type':'application/json'

@@ -5,8 +5,8 @@ export default {
   props: ['card_data'],
   methods: {
     async vault() {
-      await fetch(`${this.$url_prefix}/api/user/vault_card`, {
-        method: 'POST',
+      await fetch(`${this.$url_prefix}/api/user/vault`, {
+        method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'
@@ -20,8 +20,8 @@ export default {
       });
     },
     async forge() {
-      await fetch(`${this.$url_prefix}/api/user/forge_card`, {
-        method: 'POST',
+      await fetch(`${this.$url_prefix}/api/user/forge`, {
+        method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'

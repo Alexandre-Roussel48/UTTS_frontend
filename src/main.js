@@ -17,8 +17,13 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(router)
 
-app.config.globalProperties.$url_prefix = `https://${process.env.URL_BASE}:${process.env.PORT}`
-app.config.globalProperties.$ws_prefix = `wss://${process.env.URL_BASE}:${process.env.WS_PORT}`
+if (process.env.SECURE) {
+  app.config.globalProperties.$url_prefix = `https://${process.env.URL_BASE}:${process.env.PORT}`
+  app.config.globalProperties.$ws_prefix = `wss://${process.env.URL_BASE}:${process.env.WS_PORT}`
+} else {
+  app.config.globalProperties.$url_prefix = `http://${process.env.URL_BASE}:${process.env.PORT}`
+  app.config.globalProperties.$ws_prefix = `ws://${process.env.URL_BASE}:${process.env.WS_PORT}`
+}
 
 const store = createStore({
   state () {

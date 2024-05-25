@@ -12,8 +12,8 @@ export default {
   },
   methods: {
     async get_users() {
-      let response = await fetch(`${this.$url_prefix}/api/get_users`, {
-        method: 'POST',
+      let response = await fetch(`${this.$url_prefix}/api/users`, {
+        method: 'GET',
         credentials: "include",
         headers: {
           'Content-Type':'application/json'

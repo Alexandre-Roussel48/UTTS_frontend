@@ -5,8 +5,8 @@ export default {
   props: ['card_data'],
   methods: {
     async inventory() {
-      await fetch(`${this.$url_prefix}/api/user/inventory_card`, {
-        method: 'POST',
+      await fetch(`${this.$url_prefix}/api/user/inventory`, {
+        method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'

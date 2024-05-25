@@ -16,6 +16,7 @@ export default defineConfig(({ command, mode }) => {
       }
     },
     define: {
+      'process.env.SECURE': env.SECURE,
       'process.env.PORT': env.PORT,
       'process.env.WS_PORT': env.WS_PORT,
       'process.env.URL_BASE': JSON.stringify(env.URL_BASE)

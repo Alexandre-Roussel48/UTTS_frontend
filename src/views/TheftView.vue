@@ -11,7 +11,7 @@ export default {
   methods: {
     async theft() {
       fetch(`${this.$url_prefix}/api/user/theft`, {
-        method: 'POST',
+        method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'

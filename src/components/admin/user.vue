@@ -5,8 +5,8 @@ export default {
   props: ['user'],
   methods: {
     async delete_user() {
-      await fetch(`${this.$url_prefix}/api/delete_user`, {
-        method: 'POST',
+      await fetch(`${this.$url_prefix}/api/user`, {
+        method: 'DELETE',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'
