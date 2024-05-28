@@ -41,7 +41,7 @@ export default {
           });
           this.$store.commit('set_next_card', {next_card: ""});
           this.$store.commit('set_next_theft', {next_theft: ""});
-          this.$store.commit('set_thefts', {thefts: ""});
+          this.$store.commit('set_thefts', {thefts: []});
           if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
         }
       });
