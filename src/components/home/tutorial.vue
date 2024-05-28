@@ -110,7 +110,7 @@ export default {
                 <div class="box">
                   <h4 class="title is-4">Gettin' Started 🫠</h4>
                   <p class="content">
-                    When you sign up, you're rollin' with 5 basic cards. They're your starter pack, homie. Time to make 'em shine.
+                    When you sign up, you're rollin' with 10 basic cards. They're your starter pack, homie. Time to make 'em shine.
                   </p>
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default {
                 <div class="box">
                   <h4 class="title is-4">Swipe Game 🥷</h4>
                   <p class="content">
-                    Feelin' bold? Every 10 mins, you can swipe a random card from some other player. Watch your back, though - they might come for you too!
+                    Feelin' bold? Every 2 mins, you can swipe a random card from some other player. Watch your back, though - they might come for you too!
                   </p>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default {
                 <div class="box">
                   <h4 class="title is-4">Score Drops 💵</h4>
                   <p class="content">
-                    Every 5 mins, you're in for a drop - a chance to score a fresh basic card. Keep hustlin' and stacking those cards.
+                    Every 20 secs, you're in for a drop - a chance to score a fresh basic card. Keep hustlin' and stacking those cards.
                   </p>
                 </div>
               </div>
