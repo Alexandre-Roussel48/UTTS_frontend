@@ -58,13 +58,30 @@ const store = createStore({
     set_websocket(state) {
       const setupWebSocket = () => {
         state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}`);
+
+        state.ws.onopen = () => {
+          state.ws.isAlive = true;
+
+          state.ws.pingInterval = setInterval(() => {
+            if (state.ws.readyState === WebSocket.OPEN) {
+              state.ws.send(JSON.stringify({ type: 'ping' }));
+            }
+          }, 30000);
+        };
+
         state.ws.onmessage = (event) => {
           const jsonData = JSON.parse(event.data);
-          const thefts = [];
-          thefts.push(jsonData);
-          state.thefts = thefts;
+          if (jsonData.type === 'pong') {
+            state.ws.isAlive = true;
+          } else {
+            const thefts = [];
+            thefts.push(jsonData);
+            state.thefts = thefts;
+          }
         };
+
         state.ws.onclose = async (event) => {
+          clearInterval(state.ws.pingInterval);
           if (event.wasClean) {
             await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
               method: 'POST',
@@ -74,8 +91,13 @@ const store = createStore({
               }
             });
           } else {
-            setupWebSocket();
+            setTimeout(setupWebSocket, 1000);
           }
+        };
+
+        state.ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+          state.ws.close();
         };
       };
 
