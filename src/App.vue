@@ -29,7 +29,9 @@ export default {
           });
           this.$store.commit('set_next_card', {next_card: data['user_data']['next_card']});
           this.$store.commit('set_next_theft', {next_theft: data['user_data']['next_theft']});
-          this.$store.commit('set_thefts', {thefts: data['user_data']['thefts']});
+          if (increment) {
+            this.$store.commit('set_thefts', {thefts: data['user_data']['thefts']});
+          }
           this.$store.commit('set_websocket');
         } else {
           this.$store.commit('set_user_data', {
