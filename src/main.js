@@ -19,10 +19,10 @@ app.use(router)
 
 if (process.env.SECURE) {
   app.config.globalProperties.$url_prefix = `https://${process.env.URL_BASE}:${process.env.PORT}`
-  app.config.globalProperties.$ws_prefix = `wss://${process.env.URL_BASE}:${process.env.WS_PORT}`
+  app.config.globalProperties.$ws_prefix = `wss://${process.env.URL_BASE}:${process.env.PORT}`
 } else {
   app.config.globalProperties.$url_prefix = `http://${process.env.URL_BASE}:${process.env.PORT}`
-  app.config.globalProperties.$ws_prefix = `ws://${process.env.URL_BASE}:${process.env.WS_PORT}`
+  app.config.globalProperties.$ws_prefix = `ws://${process.env.URL_BASE}:${process.env.PORT}`
 }
 
 const store = createStore({
@@ -57,47 +57,22 @@ const store = createStore({
     },
     set_websocket(state) {
       const setupWebSocket = () => {
-        state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}`);
-
-        state.ws.onopen = () => {
-          state.ws.isAlive = true;
-
-          state.ws.pingInterval = setInterval(() => {
-            if (state.ws.readyState === WebSocket.OPEN) {
-              state.ws.send(JSON.stringify({ type: 'ping' }));
-            }
-          }, 30000);
-        };
-
+        state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}/api/socket`);
         state.ws.onmessage = (event) => {
           const jsonData = JSON.parse(event.data);
-          if (jsonData.type === 'pong') {
-            state.ws.isAlive = true;
-          } else {
-            const thefts = [];
-            thefts.push(jsonData);
-            state.thefts = thefts;
-          }
+          const thefts = [];
+          thefts.push(jsonData);
+          state.thefts = thefts;
         };
-
         state.ws.onclose = async (event) => {
-          clearInterval(state.ws.pingInterval);
           if (event.wasClean) {
             await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
-              method: 'POST',
-              credentials: 'include',
-              headers: {
-                'Content-Type':'application/json',
-              }
+              method: "POST",
+              credentials: "include"
             });
           } else {
-            setTimeout(setupWebSocket, 1000);
+            setupWebSocket();
           }
-        };
-
-        state.ws.onerror = (error) => {
-          console.error('WebSocket error:', error);
-          state.ws.close();
         };
       };
 
