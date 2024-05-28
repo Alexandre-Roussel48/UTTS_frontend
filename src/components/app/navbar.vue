@@ -4,10 +4,6 @@ export default {
   name: 'app_navbar',
   methods: {
     async logout() {
-      await fetch(`${this.$url_prefix}/api/logout`, {
-        method: 'POST',
-        credentials: "include",
-      });
       this.$store.commit('set_user_data', {
         username: "",
         connection_count: -1,
@@ -23,6 +19,10 @@ export default {
         thefts: []
       });
       if (this.$store.getters.get_ws != null) {await this.$store.getters.get_ws.close();}
+      await fetch(`${this.$url_prefix}/api/logout`, {
+        method: 'POST',
+        credentials: "include",
+      });
       this.$router.push('/');
     }
   }
