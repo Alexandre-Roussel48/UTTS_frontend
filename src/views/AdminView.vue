@@ -41,11 +41,13 @@ export default {
             <thead>
               <tr>
                 <th>User</th>
+                <th>Cards</th>
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th>User</th>
+                <th>Cards</th>
               </tr>
             </tfoot>
             <tbody>

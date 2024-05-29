@@ -26,6 +26,7 @@ export default {
 <template>
   <tr>
     <td>{{user.username}}</td>
+    <td>{{user.cards}}/45</td>
     <td>
       <button class="button" v-on:click.prevent="delete_user()">
         <span class="icon">
