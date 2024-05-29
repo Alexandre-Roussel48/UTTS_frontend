@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     async register() {
-      await fetch(`${this.$url_prefix}/api/register`, {
+      const data = await fetch(`${this.$url_prefix}/api/register`, {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -24,26 +24,25 @@ export default {
           'password':this.password,
           'remember':this.remember
         })
-      })
-      .then(resp => resp.json())
-      .then(data => {
-        if ('user_data' in data) {
-          this.$store.commit('set_user_data', {
-            username: this.username,
-            token: data['user_data']['token'],
-            connection_count: data['user_data']['connection_count'],
-            is_admin: data['user_data']['is_admin']
-          });
-          this.$store.commit('set_next_card', {next_card: data['user_data']['next_card']});
-          this.$store.commit('set_next_theft', {next_theft: data['user_data']['next_theft']});
-          this.$store.commit('set_websocket');
-        } else {
-          this.username = "";
-          this.password = "";
-          this.password_check = "";
-          this.status = data['status'];
-        }
       });
+
+      const user_data = await data.json();
+
+      if (data.ok) {
+        this.$store.commit('set_user_data', {
+          username: this.username,
+          connection_count: user_data['connection_count'],
+          is_admin: user_data['is_admin']
+        });
+        this.$store.commit('set_next_card', {next_card: user_data['next_card']});
+        this.$store.commit('set_next_theft', {next_theft: user_data['next_theft']});
+        this.$store.commit('set_websocket');
+      } else {
+        this.username = "";
+        this.password = "";
+        this.password_check = "";
+        this.status = data['status'];
+      }
     }
   },
   computed: {

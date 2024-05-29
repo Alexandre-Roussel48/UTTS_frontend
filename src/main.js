@@ -59,18 +59,11 @@ const store = createStore({
       const setupWebSocket = () => {
         state.ws = new WebSocket(`${app.config.globalProperties.$ws_prefix}/api/socket`);
         state.ws.onmessage = (event) => {
-          const jsonData = JSON.parse(event.data);
-          const thefts = [];
-          thefts.push(jsonData);
+          const thefts = JSON.parse(event.data);
           state.thefts = thefts;
         };
         state.ws.onclose = async (event) => {
-          if (event.wasClean) {
-            await fetch(`${app.config.globalProperties.$url_prefix}/api/set_last_connection`, {
-              method: "POST",
-              credentials: "include"
-            });
-          } else {
+          if (!event.wasClean) {
             setupWebSocket();
           }
         };
