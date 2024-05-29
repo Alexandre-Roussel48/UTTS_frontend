@@ -1,44 +1,61 @@
 <script>
+import { EventEmitter } from 'events';
+import Notification from '@/components/app/notification.vue';
 
-import Notification from '@/components/app/notification.vue'
+const eventEmitter = new EventEmitter();
 
 export default {
   name: 'home_thefts',
   components: { Notification },
-  data () {
+  data() {
     return {
-      num : 0,
-      thefts : []
-    }
+      thefts: [],
+      visibleThefts: []
+    };
   },
   methods: {
-    increment() {
-      fetch(`${this.$url_prefix}/api/user/notification`, {
-        method: 'DELETE',
-        credentials: "include",
-        headers: {
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify({ id: this.thefts[this.num].id }),
-      });
-      this.num += 1;
-      if (this.num == this.thefts.length) {
-        this.$store.commit('set_thefts', {thefts: []});
+    async processNotifications() {
+      for (let i = 0; i < this.thefts.length; i++) {
+        this.visibleThefts.push(this.thefts[i]);
+        await this.waitForNotification(i);
+        fetch(`${this.$url_prefix}/api/user/notification`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: this.thefts[i].id })
+        });
       }
+      this.$store.commit('set_thefts', { thefts: [] });
+    },
+    waitForNotification(index) {
+      return new Promise((resolve) => {
+        eventEmitter.once(`notification-done-${index}`, resolve);
+      });
+    },
+    handleDone(index) {
+      eventEmitter.emit(`notification-done-${index}`);
     },
     getImageSource(cardName) {
       return `cards/${cardName}.png`;
     }
   },
-  async mounted () {
+  mounted() {
     this.thefts = this.$store.getters.get_thefts;
+    this.processNotifications();
   }
-}
-
+};
 </script>
 
 <template>
   <div class="thefts-notifications">
-    <Notification v-if="thefts.length > 0 && num < thefts.length" :notificationData="this.thefts[this.num]" @done="increment"/>
+    <Notification
+      v-if="thefts.length > 0"
+      v-for="(theft, index) in visibleThefts"
+      :key="theft.id"
+      :notificationData="theft"
+      @done="handleDone(index)"
+    />
   </div>
 </template>
