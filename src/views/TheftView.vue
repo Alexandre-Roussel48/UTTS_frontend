@@ -5,7 +5,8 @@ export default {
   data () {
     return {
       timer : -1,
-      card : {}
+      card : {},
+      victim: ""
     }
   },
   methods: {
@@ -21,6 +22,7 @@ export default {
       .then(theft_data => {
         if ('theft' in theft_data) {
           this.card = theft_data['theft'];
+          this.victim = theft_data['victim'];
           this.$store.commit('set_next_theft', {next_theft: theft_data['next_theft']});
           this.timer = this.$store.getters.next_theft;
         }
@@ -79,6 +81,9 @@ export default {
       <div class="modal-background"></div>
       <div class="modal-content drop_card_content" v-on:click.prevent="reset()">
         <div class="card drop_card">
+          <div class="card-header">
+            <p class="card-header-title">Victim : {{this.victim}}</p>
+          </div>
           <div class="card-image">
             <figure class="image">
               <img :src="getImageSource(card.name)" alt="Card image"/>
