@@ -10,21 +10,21 @@ export default {
   },
   methods: {
     async drop() {
-      fetch(`${this.$url_prefix}/api/user/drop`, {
+      const data = await fetch(`${this.$url_prefix}/api/user/drop`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'
         }
-      })
-      .then(resp => resp.json())
-      .then(drop_data => {
-        if ('drop' in drop_data) {
-          this.card = drop_data['drop'];
-          this.$store.commit('set_next_card', {next_card: drop_data['next_card']});
-          this.timer = this.$store.getters.next_card;
-        }
       });
+
+      const drop_data = await data.json();
+
+      if ('drop' in drop_data) {
+        this.card = drop_data['drop'];
+        this.$store.commit('set_next_card', {next_card: drop_data['next_card']});
+        this.timer = this.$store.getters.next_card;
+      }
     },
     reset () {
       this.card = {};

@@ -11,22 +11,22 @@ export default {
   },
   methods: {
     async theft() {
-      fetch(`${this.$url_prefix}/api/user/theft`, {
+      const data = await fetch(`${this.$url_prefix}/api/user/theft`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type':'application/json'
         }
-      })
-      .then(resp => resp.json())
-      .then(theft_data => {
-        if ('theft' in theft_data) {
-          this.card = theft_data['theft'];
-          this.victim = theft_data['victim'];
-          this.$store.commit('set_next_theft', {next_theft: theft_data['next_theft']});
-          this.timer = this.$store.getters.next_theft;
-        }
       });
+
+      const theft_data = await data.json();
+
+      if ('theft' in theft_data) {
+        this.card = theft_data['theft'];
+        this.victim = theft_data['victim'];
+        this.$store.commit('set_next_theft', {next_theft: theft_data['next_theft']});
+        this.timer = this.$store.getters.next_theft;
+      }
     },
     reset () {
       this.card = {};
