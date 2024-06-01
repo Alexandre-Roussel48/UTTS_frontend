@@ -14,10 +14,7 @@ export default {
         credentials: "include",
         headers: {
           'Content-Type':'application/json',
-        },
-        body: JSON.stringify({
-          'increment':increment
-        })
+        }
       });
 
       const user_data = await data.json();
@@ -25,7 +22,6 @@ export default {
       if (data.ok) {
         this.$store.commit('set_user_data', {
           username: user_data['username'],
-          connection_count: user_data['connection_count'],
           is_admin: user_data['is_admin']
         });
         this.$store.commit('set_next_card', {next_card: user_data['next_card']});
@@ -43,7 +39,6 @@ export default {
       } else {
         this.$store.commit('set_user_data', {
           username: "",
-          connection_count: -1,
           is_admin: false
         });
         this.$store.commit('set_next_card', {next_card: ""});

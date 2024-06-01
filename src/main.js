@@ -29,7 +29,7 @@ const store = createStore({
   state () {
     return {
       username: "",
-      connection_count: -1,
+      tutorial: false,
       is_admin: false,
       next_card: "",
       next_theft: "",
@@ -40,7 +40,6 @@ const store = createStore({
   mutations: {
     set_user_data (state, payload) {
       state.username = payload.username;
-      state.connection_count = payload.connection_count;
       state.is_admin = payload.is_admin;
     },
     set_next_card (state, payload) {
@@ -49,8 +48,11 @@ const store = createStore({
     set_next_theft (state, payload) {
       state.next_theft = payload.next_theft;
     },
+    active_tutorial (state) {
+      state.tutorial = true;
+    },
     disable_tutorial (state) {
-      state.connection_count = -1;
+      state.tutorial = false;
     },
     set_thefts (state, payload) {
       state.thefts = payload.thefts;
@@ -80,7 +82,7 @@ const store = createStore({
       return state.is_admin;
     },
     is_first_time (state) {
-      return state.connection_count == 0;
+      return state.tutorial;
     },
     next_card (state) {
       const now = new Date(new Date().toISOString()).getTime();

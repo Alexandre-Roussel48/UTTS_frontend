@@ -30,7 +30,6 @@ export default {
       if (data.ok) {
         this.$store.commit('set_user_data', {
           username: this.username,
-          connection_count: user_data['connection_count'],
           is_admin: user_data['is_admin']
         });
         this.$store.commit('set_next_card', {next_card: user_data['next_card']});

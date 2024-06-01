@@ -19,18 +19,7 @@ export default {
           'Content-Type':'application/json'
         }
       });
-      let cards = await response.json();
-      const cardsMap = new Map();
-      cards.forEach(card => {
-        const key = `${card.id}-${card.name}-${card.rarity}`;
-        if (cardsMap.has(key)) {
-          const existingCard = cardsMap.get(key);
-          existingCard.count++;
-        } else {
-          cardsMap.set(key, { ...card, count: 1 });
-        }
-      });
-      this.inventory = Array.from(cardsMap.values()).sort((a, b) => a.id - b.id);
+      this.inventory = await response.json();
     }
   },
   async mounted () {
@@ -43,8 +32,6 @@ export default {
 <template>
   <main>
     <div class="header_long">
-      <img src="@/assets/canister.svg" class="image-animation">
-      <div class="has-background-info view-cover"></div>
       <img src="@/assets/inventory.svg">
     </div>
     <div class="columns">
